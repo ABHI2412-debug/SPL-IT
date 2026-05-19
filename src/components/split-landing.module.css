@@ -1,0 +1,116 @@
+.page {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 2rem;
+  background:
+    radial-gradient(circle at 10% 10%, rgba(157, 219, 225, 0.35), transparent 30%),
+    radial-gradient(circle at 80% 20%, rgba(230, 249, 245, 0.2), transparent 35%),
+    linear-gradient(160deg, #2f6975, #295c68);
+}
+
+.shell {
+  width: min(860px, 100%);
+  border-radius: 2rem;
+  padding: 2rem;
+  background: rgba(9, 38, 47, 0.45);
+  border: 1px solid rgba(223, 247, 248, 0.2);
+  box-shadow: 0 24px 60px rgba(8, 26, 32, 0.25);
+  backdrop-filter: blur(8px);
+}
+
+.header h1 {
+  margin: 0;
+  color: #eefdfb;
+  font-size: clamp(2rem, 3vw, 2.8rem);
+  font-family: var(--font-display), serif;
+}
+
+.kicker {
+  margin: 0 0 0.4rem;
+  color: rgba(225, 245, 247, 0.9);
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+}
+
+.note {
+  margin: 0.8rem 0 1.8rem;
+  color: rgba(219, 245, 245, 0.86);
+}
+
+.stack {
+  display: grid;
+  gap: 1rem;
+}
+
+.card {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1.4rem 1.5rem;
+  border-radius: 1.2rem;
+  transition: transform 180ms ease, box-shadow 180ms ease;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 30px rgba(9, 24, 30, 0.25);
+}
+
+.trip {
+  color: #effcff;
+  background: linear-gradient(120deg, #173745, #1f4b5e);
+}
+
+.local {
+  color: #17333d;
+  background: linear-gradient(120deg, #cae8ea, #e9f8f7);
+}
+
+.label {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.subtitle {
+  margin: 0.35rem 0 0;
+  opacity: 0.86;
+}
+
+.amountWrap {
+  text-align: right;
+}
+
+.amountLabel {
+  margin: 0;
+  opacity: 0.8;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.amount {
+  margin: 0.25rem 0 0;
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+@media (max-width: 700px) {
+  .page {
+    padding: 1rem;
+  }
+
+  .shell {
+    padding: 1.2rem;
+  }
+
+  .card {
+    flex-direction: column;
+  }
+
+  .amountWrap {
+    text-align: left;
+  }
+}

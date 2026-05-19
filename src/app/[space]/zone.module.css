@@ -1,0 +1,143 @@
+.page {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 2rem;
+}
+
+.trip {
+  background:
+    radial-gradient(circle at 16% 8%, rgba(168, 221, 230, 0.35), transparent 26%),
+    linear-gradient(165deg, #2f6e7a, #285965);
+}
+
+.local {
+  background:
+    radial-gradient(circle at 10% 18%, rgba(255, 236, 197, 0.4), transparent 26%),
+    linear-gradient(165deg, #78a5af, #547f8a);
+}
+
+.panel {
+  width: min(760px, 100%);
+  border-radius: 2rem;
+  padding: 1.4rem;
+  background: rgba(9, 38, 47, 0.38);
+  border: 1px solid rgba(227, 248, 250, 0.24);
+  box-shadow: 0 24px 60px rgba(6, 24, 30, 0.28);
+}
+
+.eyebrow {
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: rgba(227, 247, 250, 0.88);
+}
+
+.panel h1 {
+  margin: 0.4rem 0;
+  color: #edfcfd;
+  font-size: 2.2rem;
+}
+
+.subtotalLabel {
+  margin: 0.2rem 0 0;
+  color: rgba(227, 247, 250, 0.8);
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.subtotal {
+  margin: 0.25rem 0 1.2rem;
+  color: #ffffff;
+  font-size: clamp(2rem, 5vw, 3rem);
+  font-weight: 700;
+}
+
+.options {
+  display: grid;
+  gap: 0.8rem;
+}
+
+.optionCard {
+  padding: 1rem 1.1rem;
+  border-radius: 1rem;
+  background: rgba(236, 251, 252, 0.92);
+  color: #17313a;
+}
+
+.optionCard h2 {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.optionCard p {
+  margin: 0.25rem 0 0;
+  font-size: 1.3rem;
+  font-weight: 700;
+}
+
+.actions {
+  margin-top: 1rem;
+}
+
+.primary {
+  display: inline-flex;
+  padding: 0.7rem 1rem;
+  border-radius: 999px;
+  background: rgba(227, 247, 250, 0.92);
+  color: #17313a;
+  font-weight: 600;
+}
+
+.addForm {
+  margin-top: 1rem;
+  padding: 0.9rem;
+  border-radius: 1rem;
+  background: rgba(236, 251, 252, 0.2);
+}
+
+.addForm h3 {
+  margin: 0 0 0.65rem;
+  color: #eafcfd;
+  font-size: 1rem;
+}
+
+.fieldRow {
+  display: grid;
+  grid-template-columns: 1fr 140px auto;
+  gap: 0.5rem;
+}
+
+.field {
+  border: 1px solid rgba(227, 247, 250, 0.5);
+  background: rgba(11, 46, 57, 0.45);
+  color: #f3feff;
+  border-radius: 0.6rem;
+  padding: 0.55rem 0.7rem;
+}
+
+.field::placeholder {
+  color: rgba(232, 251, 253, 0.68);
+}
+
+.addButton {
+  border: 0;
+  border-radius: 0.6rem;
+  padding: 0.55rem 0.8rem;
+  background: rgba(227, 247, 250, 0.95);
+  color: #17313a;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.addButton:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+@media (max-width: 760px) {
+  .fieldRow {
+    grid-template-columns: 1fr;
+  }
+}
