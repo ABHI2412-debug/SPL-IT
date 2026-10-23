@@ -327,8 +327,13 @@ async function ensureDbFile(): Promise<DatabaseSchema> {
     // Missing or invalid, initialize seed database
   }
 
-  await fs.mkdir(DB_DIR, { recursive: true });
-  await fs.writeFile(DB_FILE, JSON.stringify(INITIAL_SEED_DATABASE, null, 2), "utf-8");
+  try {
+    await fs.mkdir(DB_DIR, { recursive: true });
+    await fs.writeFile(DB_FILE, JSON.stringify(INITIAL_SEED_DATABASE, null, 2), "utf-8");
+  } catch (err) {
+    // Read-only serverless filesystem (e.g. Vercel Lambda), fallback to memory cache
+    console.warn("[Database] Disk write skipped (serverless filesystem):", err);
+  }
   memoryCache = INITIAL_SEED_DATABASE;
   return INITIAL_SEED_DATABASE;
 }
@@ -343,8 +348,12 @@ export async function getDatabase(): Promise<DatabaseSchema> {
 export async function saveDatabase(data: DatabaseSchema): Promise<void> {
   data.lastUpdated = new Date().toISOString();
   memoryCache = data;
-  await fs.mkdir(DB_DIR, { recursive: true });
-  await fs.writeFile(DB_FILE, JSON.stringify(data, null, 2), "utf-8");
+  try {
+    await fs.mkdir(DB_DIR, { recursive: true });
+    await fs.writeFile(DB_FILE, JSON.stringify(data, null, 2), "utf-8");
+  } catch (err) {
+    console.warn("[Database] Disk save skipped (serverless filesystem):", err);
+  }
 }
 
 export async function resetDatabase(): Promise<DatabaseSchema> {

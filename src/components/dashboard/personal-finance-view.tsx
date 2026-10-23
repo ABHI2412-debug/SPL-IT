@@ -132,7 +132,7 @@ export function PersonalFinanceView({
       {/* 1. GREETING & CLOCK HEADER (ROOM LEDGER)                  */}
       {/* ========================================================= */}
       <ScrollReveal delay={40} direction="flip-up">
-        <section className="flex items-start justify-between gap-4 pt-1 pb-1">
+        <section className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pt-1 pb-1">
           <div>
             <span
               className="text-[11px] font-semibold tracking-[0.26em] text-[#f39850] uppercase block mb-1"
@@ -152,55 +152,29 @@ export function PersonalFinanceView({
             <p className="text-xs text-[rgba(255,245,230,0.65)] mt-1 font-medium">
               Shared local expenses and personal finance for the people around you every day.
             </p>
-            <div className="flex flex-wrap items-center gap-2 mt-3">
-              <button
-                type="button"
-                onClick={onAddTransaction}
-                className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-[#f39850] text-[#1a1208] text-xs font-bold uppercase tracking-wider shadow-md hover:bg-[#e08942] transition-colors"
-              >
-                <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 4v16m8-8H4" />
-                </svg>
-                Record Transaction
-              </button>
-              {onScanReceipt && (
-                <button
-                  type="button"
-                  onClick={onScanReceipt}
-                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[rgba(255,248,235,0.08)] border border-[rgba(255,248,235,0.18)] text-[rgba(255,245,230,0.85)] text-xs font-semibold uppercase tracking-wider hover:border-[#f39850]/40 hover:text-[#f39850] transition-all"
-                >
-                  <span>📷</span>
-                  Scan Bill
-                </button>
-              )}
-              <button
-                type="button"
-                onClick={onNewBudget}
-                className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[rgba(255,248,235,0.08)] border border-[rgba(255,248,235,0.18)] text-[#6ee7b7] text-xs font-semibold uppercase tracking-wider hover:bg-[rgba(255,248,235,0.14)] transition-all"
-              >
-                <span>🎯</span>
-                Set Budget
-              </button>
-              <button
-                type="button"
-                onClick={onNewGoal}
-                className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[rgba(255,248,235,0.08)] border border-[rgba(255,248,235,0.18)] text-[#67e8f9] text-xs font-semibold uppercase tracking-wider hover:bg-[rgba(255,248,235,0.14)] transition-all"
-              >
-                <span>💎</span>
-                New Goal
-              </button>
-              <button
-                type="button"
-                onClick={onExportReceipt}
-                className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[rgba(255,248,235,0.08)] border border-[rgba(255,248,235,0.18)] text-[#fcd34d] text-xs font-semibold uppercase tracking-wider hover:bg-[rgba(255,248,235,0.14)] hover:border-[#fcd34d]/40 transition-all"
-              >
-                <span>🧾</span>
-                Statement Slip
-              </button>
-            </div>
           </div>
 
-          <LiveClock />
+          <div className="flex flex-wrap items-center gap-2 self-start sm:self-center">
+            {onScanReceipt && (
+              <button
+                type="button"
+                onClick={onScanReceipt}
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[rgba(255,248,235,0.08)] border border-[rgba(255,248,235,0.18)] text-[rgba(255,245,230,0.85)] text-xs font-semibold uppercase tracking-wider hover:border-[#f39850]/40 hover:text-[#f39850] transition-all"
+              >
+                <span>📷</span>
+                Scan Bill
+              </button>
+            )}
+            <button
+              type="button"
+              onClick={onExportReceipt}
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[rgba(255,248,235,0.08)] border border-[rgba(255,248,235,0.18)] text-[#fcd34d] text-xs font-semibold uppercase tracking-wider hover:bg-[rgba(255,248,235,0.14)] hover:border-[#fcd34d]/40 transition-all"
+            >
+              <span>🧾</span>
+              Statement Slip
+            </button>
+            <LiveClock />
+          </div>
         </section>
       </ScrollReveal>
 

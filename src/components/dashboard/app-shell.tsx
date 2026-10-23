@@ -72,8 +72,14 @@ export function DashboardShell({
     theme: "classic",
   });
 
+  const spaceTransitionTimerRef = React.useRef<NodeJS.Timeout | null>(null);
+  const spaceHideTimerRef = React.useRef<NodeJS.Timeout | null>(null);
+
   const handleSpaceChange = (newSpace: SpaceType) => {
     if (newSpace === currentSpace) return;
+
+    if (spaceTransitionTimerRef.current) clearTimeout(spaceTransitionTimerRef.current);
+    if (spaceHideTimerRef.current) clearTimeout(spaceHideTimerRef.current);
 
     setPageTransition({
       isVisible: true,
@@ -85,7 +91,7 @@ export function DashboardShell({
       theme: newSpace === "trip" ? "forest" : "room",
     });
 
-    const timer = setTimeout(() => {
+    spaceTransitionTimerRef.current = setTimeout(() => {
       setCurrentSpace(newSpace);
       if (newSpace === "trip") {
         setActiveTripTab("home");
@@ -94,76 +100,22 @@ export function DashboardShell({
       }
       window.history.pushState(null, "", `/${newSpace}`);
 
-      const hideTimer = setTimeout(() => {
+      spaceHideTimerRef.current = setTimeout(() => {
         setPageTransition((prev) => ({ ...prev, isVisible: false }));
       }, 260);
-
-      return () => clearTimeout(hideTimer);
-    }, 550);
-
-    return () => clearTimeout(timer);
+    }, 500);
   };
 
   const handleTripTabChange = (newTab: TripTab) => {
     if (newTab === activeTripTab && currentSpace === "trip") return;
-
-    const tabDescriptions: Record<TripTab, { title: string; sub: string }> = {
-      home: { title: "Opening Trip Home...", sub: "Collating trip balances & recent ledger" },
-      spaces: { title: "Loading Travel Spaces...", sub: "Retrieving active trip groups & circles" },
-      expenses: { title: "Drafting Expenses Ledger...", sub: "Loading itemized receipts & splits" },
-      settlements: { title: "Calculating Settlements...", sub: "Generating UPI settle-ups & balances" },
-      analytics: { title: "Compiling Travel Analytics...", sub: "Calculating category distributions & trends" },
-    };
-
-    const info = tabDescriptions[newTab] || { title: "Loading Page...", sub: "" };
-    setPageTransition({
-      isVisible: true,
-      message: info.title,
-      subMessage: info.sub,
-      theme: "forest",
-    });
-
-    const timer = setTimeout(() => {
-      setCurrentSpace("trip");
-      setActiveTripTab(newTab);
-      const hideTimer = setTimeout(() => {
-        setPageTransition((prev) => ({ ...prev, isVisible: false }));
-      }, 240);
-      return () => clearTimeout(hideTimer);
-    }, 480);
-
-    return () => clearTimeout(timer);
+    setCurrentSpace("trip");
+    setActiveTripTab(newTab);
   };
 
   const handlePersonalTabChange = (newTab: PersonalTab) => {
     if (newTab === activePersonalTab && currentSpace === "local") return;
-
-    const tabDescriptions: Record<PersonalTab, { title: string; sub: string }> = {
-      home: { title: "Opening Room Home...", sub: "Loading financial health & quick accounts" },
-      transactions: { title: "Loading Transactions...", sub: "Compiling personal spending history" },
-      budgets: { title: "Checking Budgets...", sub: "Tracking monthly caps & category limits" },
-      analytics: { title: "Preparing Financial Insights...", sub: "Analyzing cash flow & savings rate" },
-      goals: { title: "Loading Savings Goals...", sub: "Retrieving target balances & milestones" },
-    };
-
-    const info = tabDescriptions[newTab] || { title: "Loading Page...", sub: "" };
-    setPageTransition({
-      isVisible: true,
-      message: info.title,
-      subMessage: info.sub,
-      theme: "room",
-    });
-
-    const timer = setTimeout(() => {
-      setCurrentSpace("local");
-      setActivePersonalTab(newTab);
-      const hideTimer = setTimeout(() => {
-        setPageTransition((prev) => ({ ...prev, isVisible: false }));
-      }, 240);
-      return () => clearTimeout(hideTimer);
-    }, 480);
-
-    return () => clearTimeout(timer);
+    setCurrentSpace("local");
+    setActivePersonalTab(newTab);
   };
 
   const handleNavigateTab = (tab: string) => {
@@ -972,7 +924,7 @@ export function DashboardShell({
       )}
 
       {/* Main Dashboard Content Canvas */}
-      <main className="flex-1 w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 pb-36 relative z-10">
+      <main className="flex-1 w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 pb-48 sm:pb-56 relative z-10">
         <PageView
           key={isTrip ? `trip-${activeTripTab}` : `local-${activePersonalTab}`}
           isSpaceSwitch={isSpaceSwitch}

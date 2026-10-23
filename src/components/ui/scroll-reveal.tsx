@@ -29,15 +29,25 @@ export function ScrollReveal({
     const el = containerRef.current;
     if (!el) return;
 
-    // Only auto-reveal if element is comfortably within the upper visible viewport on initial load
+    // Check if element is anywhere within or near the visible window on mount
     const rect = el.getBoundingClientRect();
-    const inTopHalfOfViewport = rect.top < window.innerHeight * 0.55 && rect.bottom > 0;
+    const isInInitialView = rect.top < window.innerHeight + 250 && rect.bottom > -100;
 
-    if (inTopHalfOfViewport) {
+    if (isInInitialView) {
       const timer = setTimeout(() => {
         setIsVisible(true);
-      }, Math.max(delay, 50));
+      }, Math.max(delay, 30));
       return () => clearTimeout(timer);
+    }
+
+    // Failsafe timer: ensures content never gets stuck invisible (opacity: 0) on any viewport
+    const safetyTimer = setTimeout(() => {
+      setIsVisible(true);
+    }, 450 + Math.max(delay, 50));
+
+    if (typeof IntersectionObserver === "undefined") {
+      setIsVisible(true);
+      return () => clearTimeout(safetyTimer);
     }
 
     const observer = new IntersectionObserver(
@@ -50,13 +60,16 @@ export function ScrollReveal({
         });
       },
       {
-        threshold,
-        rootMargin: "0px 0px -40px 0px",
+        threshold: 0,
+        rootMargin: "80px 0px 80px 0px",
       }
     );
 
     observer.observe(el);
-    return () => observer.disconnect();
+    return () => {
+      observer.disconnect();
+      clearTimeout(safetyTimer);
+    };
   }, [delay, threshold]);
 
   const directionClass =
