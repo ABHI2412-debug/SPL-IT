@@ -1,0 +1,10 @@
+{
+  "name": "SmartSplit",
+  "short_name": "SmartSplit",
+  "description": "Split expenses between trip and local spaces.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#2f6975",
+  "theme_color": "#2f6975",
+  "icons": []
+}
