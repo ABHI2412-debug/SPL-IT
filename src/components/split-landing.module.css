@@ -2,16 +2,46 @@
   position: relative;
   min-height: 100vh;
   overflow: hidden;
-  background:
-    radial-gradient(circle at top, rgba(255, 245, 226, 0.35), transparent 35%),
-    linear-gradient(180deg, #e7d9c1 0%, #ccb79d 100%);
+  background: #111618;
+}
+
+.portalContainer {
+  position: relative;
+  min-height: 100vh;
+  width: 100%;
+  transition: opacity 320ms cubic-bezier(0.2, 0.9, 0.2, 1);
+  will-change: opacity;
+}
+
+.portalContainerActive {
+  pointer-events: none;
+}
+
+.dashboardWrapper {
+  position: fixed;
+  inset: 0;
+  z-index: 25;
+  overflow-y: auto;
+  overflow-x: hidden;
+  background: transparent;
+  transition: opacity 550ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.dashboardHidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.dashboardVisible {
+  opacity: 1;
+  pointer-events: auto;
 }
 
 .grain {
   position: fixed;
   inset: 0;
   pointer-events: none;
-  opacity: 0.1;
+  opacity: 0.08;
   background-image:
     linear-gradient(rgba(255, 255, 255, 0.08) 1px, transparent 1px),
     linear-gradient(90deg, rgba(0, 0, 0, 0.05) 1px, transparent 1px);
@@ -80,11 +110,14 @@
   overflow: hidden;
   text-align: left;
   color: #fff6ea;
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+  contain: paint layout;
+  will-change: clip-path, transform;
   transition:
-    transform 900ms cubic-bezier(0.19, 1, 0.22, 1),
-    filter 900ms cubic-bezier(0.19, 1, 0.22, 1),
-    opacity 900ms ease,
-    clip-path 900ms cubic-bezier(0.19, 1, 0.22, 1);
+    transform 380ms cubic-bezier(0.2, 0.9, 0.2, 1),
+    opacity 320ms cubic-bezier(0.2, 0.9, 0.2, 1),
+    clip-path 380ms cubic-bezier(0.2, 0.9, 0.2, 1);
 }
 
 .panel::after {
@@ -96,7 +129,7 @@
 
 .panel:hover .panelCopy,
 .panel:focus-visible .panelCopy {
-  transform: translateY(-10px);
+  transform: translateY(-8px);
 }
 
 .tripPanel {
@@ -487,12 +520,13 @@
 .panelCopy {
   position: absolute;
   bottom: 8vh;
-  z-index: 2;
+  z-index: 10;
   display: flex;
   flex-direction: column;
   gap: 0.9rem;
-  max-width: 24rem;
-  transition: transform 500ms ease;
+  max-width: 26rem;
+  transition: transform 500ms cubic-bezier(0.16, 1, 0.3, 1), opacity 400ms ease;
+  pointer-events: auto;
 }
 
 .tripPanel .panelCopy {
@@ -555,20 +589,81 @@
   align-items: center;
   justify-content: center;
   align-self: flex-start;
-  min-width: 10rem;
-  padding: 0.8rem 1.1rem;
-  border: 1px solid rgba(255, 244, 225, 0.24);
+  min-width: 10.5rem;
+  padding: 0.82rem 1.35rem;
+  border: 1px solid rgba(255, 244, 225, 0.28);
   border-radius: 999px;
   background: rgba(255, 247, 235, 0.08);
   font-size: 0.78rem;
   font-weight: 700;
-  letter-spacing: 0.18em;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
   backdrop-filter: blur(14px);
+  cursor: pointer;
+  transition:
+    transform 320ms cubic-bezier(0.16, 1, 0.3, 1),
+    background-color 320ms ease,
+    border-color 320ms ease,
+    box-shadow 320ms ease;
 }
 
 .localPanel .cta {
   align-self: flex-end;
+}
+
+.ctaContent {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+}
+
+.ctaArrow {
+  display: inline-block;
+  transition: transform 300ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.panel:hover .cta {
+  background: rgba(255, 247, 235, 0.18);
+  border-color: rgba(255, 244, 225, 0.55);
+  box-shadow: 0 0 25px rgba(255, 244, 225, 0.18);
+  transform: scale(1.03);
+}
+
+.panel:hover .cta .ctaArrow {
+  transform: translateX(4px);
+}
+
+.ctaActive {
+  background: rgba(224, 168, 117, 0.22) !important;
+  border-color: rgba(224, 168, 117, 0.65) !important;
+  box-shadow: 0 0 35px rgba(224, 168, 117, 0.35) !important;
+}
+
+.ctaActiveWrapper {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  color: #fff6ea;
+}
+
+.ctaPulseDot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #e0a875;
+  box-shadow: 0 0 8px #e0a875;
+  animation: ctaPulse 1s infinite ease-in-out;
+}
+
+@keyframes ctaPulse {
+  0%, 100% {
+    transform: scale(0.8);
+    opacity: 0.5;
+  }
+  50% {
+    transform: scale(1.3);
+    opacity: 1;
+  }
 }
 
 .divider {
@@ -577,15 +672,47 @@
   z-index: 3;
   inset: 0;
   height: 100%;
-  background: linear-gradient(180deg, transparent 0%, rgba(255, 251, 246, 0.68) 10%, rgba(255, 251, 246, 0.2) 90%, transparent 100%);
-  clip-path: polygon(
-    calc(75% - 1px) 0,
-    calc(75% + 1px) 0,
-    calc(25% + 1px) 100%,
-    calc(25% - 1px) 100%
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    rgba(255, 251, 246, 0.75) 12%,
+    rgba(255, 251, 246, 0.3) 88%,
+    transparent 100%
   );
-  box-shadow: 0 0 22px rgba(255, 238, 208, 0.25);
+  clip-path: polygon(
+    calc(75% - 1.5px) 0,
+    calc(75% + 1.5px) 0,
+    calc(25% + 1.5px) 100%,
+    calc(25% - 1.5px) 100%
+  );
+  box-shadow: 0 0 28px rgba(255, 238, 208, 0.35);
   pointer-events: none;
+  transition:
+    clip-path 380ms cubic-bezier(0.2, 0.9, 0.2, 1),
+    opacity 280ms ease;
+}
+
+.portalVeil {
+  position: absolute;
+  inset: 0;
+  z-index: 8;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 320ms ease;
+}
+
+.hero[data-active="trip"] .portalVeil {
+  opacity: 1;
+  background:
+    radial-gradient(circle at 75% 10%, rgba(224, 168, 117, 0.22), transparent 45%),
+    linear-gradient(180deg, rgba(16, 26, 30, 0.35) 0%, rgba(14, 23, 27, 0.55) 45%, rgba(10, 17, 20, 0.78) 100%);
+}
+
+.hero[data-active="local"] .portalVeil {
+  opacity: 1;
+  background:
+    radial-gradient(circle at 80% 12%, rgba(243, 152, 80, 0.25), transparent 45%),
+    linear-gradient(180deg, rgba(32, 20, 26, 0.35) 0%, rgba(26, 16, 22, 0.55) 45%, rgba(18, 11, 15, 0.78) 100%);
 }
 
 .centerCopy {
@@ -595,14 +722,19 @@
   z-index: 4;
   width: min(26rem, calc(100vw - 4rem));
   padding: 1.4rem;
-  border: 1px solid rgba(255, 248, 235, 0.16);
+  border: 1px solid rgba(255, 248, 235, 0.14);
   border-radius: 1.5rem;
-  background: rgba(22, 20, 18, 0.26);
+  background: rgba(8, 11, 13, 0.82);
   color: #fff5e7;
   text-align: center;
-  transform: translate(-50%, -50%);
-  backdrop-filter: blur(18px);
-  box-shadow: 0 20px 80px rgba(20, 16, 13, 0.15);
+  transform: translate3d(-50%, -50%, 0);
+  backdrop-filter: blur(28px) saturate(140%);
+  -webkit-backdrop-filter: blur(28px) saturate(140%);
+  box-shadow: 0 30px 90px rgba(0, 0, 0, 0.75), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  pointer-events: none;
+  transition:
+    transform 320ms cubic-bezier(0.2, 0.9, 0.2, 1),
+    opacity 250ms ease;
 }
 
 .centerLabel {
@@ -629,36 +761,179 @@
   color: rgba(255, 245, 229, 0.86);
 }
 
+/* --- Interactive Hover Physics (Zero-lag native CSS :has() + data-hovered support) --- */
+.hero:has(.tripPanel:hover) .tripPanel,
+.hero[data-hovered="trip"] .tripPanel {
+  clip-path: polygon(0 0, 80% 0, 32% 100%, 0 100%);
+}
+
+.hero:has(.tripPanel:hover) .tripPanel::after,
+.hero[data-hovered="trip"] .tripPanel::after {
+  opacity: 0.05;
+}
+
+.hero:has(.tripPanel:hover) .localPanel,
+.hero[data-hovered="trip"] .localPanel {
+  clip-path: polygon(80% 0, 100% 0, 100% 100%, 32% 100%);
+}
+
+.hero:has(.tripPanel:hover) .localPanel::after,
+.hero[data-hovered="trip"] .localPanel::after {
+  opacity: 0.48;
+}
+
+.hero:has(.tripPanel:hover) .divider,
+.hero[data-hovered="trip"] .divider {
+  clip-path: polygon(
+    calc(80% - 1.5px) 0,
+    calc(80% + 1.5px) 0,
+    calc(32% + 1.5px) 100%,
+    calc(32% - 1.5px) 100%
+  );
+  box-shadow: 0 0 35px rgba(215, 240, 242, 0.45);
+}
+
+.hero:has(.tripPanel:hover) .centerCopy,
+.hero[data-hovered="trip"] .centerCopy {
+  transform: translate3d(-52%, -50%, 0);
+}
+
+.hero:has(.localPanel:hover) .localPanel,
+.hero[data-hovered="local"] .localPanel {
+  clip-path: polygon(68% 0, 100% 0, 100% 100%, 18% 100%);
+}
+
+.hero:has(.localPanel:hover) .localPanel::after,
+.hero[data-hovered="local"] .localPanel::after {
+  opacity: 0.05;
+}
+
+.hero:has(.localPanel:hover) .tripPanel,
+.hero[data-hovered="local"] .tripPanel {
+  clip-path: polygon(0 0, 68% 0, 18% 100%, 0 100%);
+}
+
+.hero:has(.localPanel:hover) .tripPanel::after,
+.hero[data-hovered="local"] .tripPanel::after {
+  opacity: 0.48;
+}
+
+.hero:has(.localPanel:hover) .divider,
+.hero[data-hovered="local"] .divider {
+  clip-path: polygon(
+    calc(68% - 1.5px) 0,
+    calc(68% + 1.5px) 0,
+    calc(18% + 1.5px) 100%,
+    calc(18% - 1.5px) 100%
+  );
+  box-shadow: 0 0 35px rgba(245, 185, 145, 0.45);
+}
+
+.hero:has(.localPanel:hover) .centerCopy,
+.hero[data-hovered="local"] .centerCopy {
+  transform: translate3d(-48%, -50%, 0);
+}
+
+/* --- Active Dashboard Launch Transition (Fills the screen smoothly) --- */
 .hero[data-active="trip"] .tripPanel {
-  clip-path: inset(0);
-  transform: scale(1.08) translate(5%, -1%);
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%) !important;
+  z-index: 7;
+  transform: scale(1.02);
+  transition:
+    clip-path 750ms cubic-bezier(0.16, 1, 0.3, 1),
+    transform 750ms cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+.hero[data-active="trip"] .tripPhoto {
+  transform: scale(1.12);
+  filter: saturate(1.1) contrast(1) brightness(0.92);
+  transition: transform 1200ms cubic-bezier(0.16, 1, 0.3, 1), filter 800ms ease;
+}
+
+.hero[data-active="trip"] .tripGlow {
+  opacity: 1;
+  background:
+    radial-gradient(circle at 72% 16%, rgba(255, 248, 235, 0.45), transparent 32%),
+    radial-gradient(circle at 45% 25%, rgba(224, 168, 117, 0.35), transparent 45%);
+  transition: opacity 900ms ease;
+}
+
+.hero[data-active="trip"] .tripMist {
+  opacity: 0.9;
+  transform: translateY(-16px) scale(1.05);
+  transition: transform 1200ms cubic-bezier(0.16, 1, 0.3, 1), opacity 900ms ease;
+}
+
+.hero[data-active="trip"] .forestFront {
+  transform: scale(1.04) translateY(6px);
+  transition: transform 1200ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .hero[data-active="trip"] .localPanel {
-  transform: scale(1.04) translate(32%, 0);
-  opacity: 0.06;
-  filter: blur(14px);
+  clip-path: polygon(100% 0, 100% 0, 100% 100%, 100% 100%);
+  opacity: 0;
+  transform: scale(0.94) translateX(60px);
+  transition:
+    clip-path 750ms cubic-bezier(0.16, 1, 0.3, 1),
+    transform 750ms cubic-bezier(0.16, 1, 0.3, 1),
+    opacity 450ms ease !important;
 }
 
 .hero[data-active="local"] .localPanel {
-  clip-path: inset(0);
-  transform: scale(1.08) translate(-5%, 1%);
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%) !important;
+  z-index: 7;
+  transform: scale(1.02);
+  transition:
+    clip-path 750ms cubic-bezier(0.16, 1, 0.3, 1),
+    transform 750ms cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+.hero[data-active="local"] .sunBeam {
+  opacity: 1;
+  transform: scale(1.15) rotate(-2deg);
+  transition: transform 1200ms cubic-bezier(0.16, 1, 0.3, 1), opacity 800ms ease;
+}
+
+.hero[data-active="local"] .windowGlow {
+  opacity: 1;
+  filter: blur(28px);
+  transition: opacity 800ms ease, filter 800ms ease;
 }
 
 .hero[data-active="local"] .tripPanel {
-  transform: scale(1.04) translate(-32%, 0);
-  opacity: 0.06;
-  filter: blur(14px);
+  clip-path: polygon(0 0, 0 0, 0 100%, 0 100%);
+  opacity: 0;
+  transform: scale(0.94) translateX(-60px);
+  transition:
+    clip-path 750ms cubic-bezier(0.16, 1, 0.3, 1),
+    transform 750ms cubic-bezier(0.16, 1, 0.3, 1),
+    opacity 450ms ease !important;
 }
 
-.hero[data-active] .centerCopy {
-  transition: opacity 450ms ease, transform 450ms ease;
+.hero[data-active="trip"] .panelCopy,
+.hero[data-active="local"] .panelCopy {
+  opacity: 0;
+  transform: translateY(-16px);
+  pointer-events: none;
+  transition:
+    transform 280ms cubic-bezier(0.2, 0.9, 0.2, 1),
+    opacity 220ms ease;
+}
+
+.hero[data-active="trip"] .divider,
+.hero[data-active="local"] .divider {
+  opacity: 0;
+  transition: opacity 220ms ease;
 }
 
 .hero[data-active="trip"] .centerCopy,
 .hero[data-active="local"] .centerCopy {
   opacity: 0;
-  transform: translate(-50%, -52%);
+  transform: translate3d(-50%, -46%, 0) scale(0.95);
+  pointer-events: none;
+  transition:
+    transform 300ms cubic-bezier(0.2, 0.9, 0.2, 1),
+    opacity 220ms ease;
 }
 
 @media (max-width: 980px) {

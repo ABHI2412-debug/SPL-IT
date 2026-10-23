@@ -20,6 +20,12 @@ pnpm-debug.log*
 
 # env files
 .env*
+!.env.example
+
+# logs
+*.log
+*.err
+.next-dev.*
 
 # vercel
 .vercel

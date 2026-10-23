@@ -1,0 +1,503 @@
+/* ===================================================================
+   DASHBOARD ATMOSPHERIC BACKDROPS (FOREST LEDGER & ROOM LEDGER)
+   Faithfully ported from SplitLanding for full visual continuity
+   =================================================================== */
+
+.backdropWrapper {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+  background: #0d1417;
+}
+
+/* Atmospheric Grain Overlay */
+.grain {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.055;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.12) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 0, 0, 0.08) 1px, transparent 1px);
+  background-size: 5px 5px, 7px 7px;
+  mix-blend-mode: soft-light;
+  z-index: 5;
+}
+
+/* Peripheral Vignette for gentle focus framing */
+.vignette {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 50% 35%, transparent 40%, rgba(5, 8, 10, 0.55) 100%);
+  pointer-events: none;
+  z-index: 4;
+}
+
+/* Base Scene Layer */
+.scene {
+  position: absolute;
+  inset: 0;
+  transition: opacity 800ms cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+.sceneInactive {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.sceneActive {
+  opacity: 1;
+}
+
+/* Hardware-accelerated blurred scenery canvas (eliminates edge bleeding with 45px bleed) */
+.sceneryCanvas {
+  position: absolute;
+  inset: -45px;
+  transform: scale(var(--backdrop-scale, 1.14)) translateZ(0);
+  backface-visibility: hidden;
+  filter: blur(var(--backdrop-blur, 36px))
+          saturate(var(--backdrop-saturate, 1.28))
+          brightness(var(--backdrop-brightness, 0.85));
+  transition:
+    filter 400ms cubic-bezier(0.16, 1, 0.3, 1),
+    transform 400ms cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform;
+}
+
+.sceneActive .tripBackdrop .sceneryCanvas {
+  animation: forestSceneryDrift 20s ease-in-out infinite alternate;
+}
+
+@keyframes forestSceneryDrift {
+  0% {
+    transform: scale(var(--backdrop-scale, 1.14)) translate3d(0, 0, 0);
+  }
+  100% {
+    transform: scale(calc(var(--backdrop-scale, 1.14) * 1.025)) translate3d(0, -6px, 0);
+  }
+}
+
+/* ===================================================================
+   1. FOREST LEDGER BACKDROP (TRIP)
+   =================================================================== */
+
+.tripBackdrop {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(160deg, #627b7f 0%, #364b51 34%, #162227 100%);
+}
+
+.tripPhoto {
+  object-fit: cover;
+  object-position: center;
+  transform: scale(1.05);
+  filter: saturate(0.85) contrast(0.92) brightness(0.82);
+  opacity: 0.68;
+}
+
+.tripSky {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 72% 14%, rgba(236, 243, 239, 0.35), transparent 22%),
+    radial-gradient(circle at 75% 8%, rgba(224, 168, 117, 0.22), transparent 32%),
+    linear-gradient(180deg, rgba(237, 241, 238, 0.18) 0%, rgba(123, 145, 152, 0.22) 42%, rgba(15, 27, 31, 0.75) 100%);
+}
+
+.tripGlow {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(140deg, rgba(255, 247, 231, 0.15), transparent 36%),
+    radial-gradient(circle at 65% 20%, rgba(235, 248, 246, 0.2), transparent 24%);
+}
+
+.tripMist {
+  position: absolute;
+  inset: 14% -10% 24%;
+  background:
+    radial-gradient(circle at 30% 70%, rgba(210, 226, 229, 0.2), transparent 28%),
+    radial-gradient(circle at 66% 42%, rgba(217, 231, 233, 0.22), transparent 24%),
+    linear-gradient(180deg, rgba(228, 237, 237, 0.08), rgba(228, 237, 237, 0));
+  filter: blur(18px);
+}
+
+.mountain {
+  position: absolute;
+  inset-inline: -10%;
+  border-radius: 50%;
+}
+
+.mountainFar {
+  top: 15%;
+  height: 26%;
+  background: #6f8487;
+  clip-path: polygon(0 74%, 12% 62%, 24% 50%, 34% 54%, 46% 44%, 58% 49%, 72% 35%, 85% 42%, 100% 28%, 100% 100%, 0 100%);
+  opacity: 0.65;
+}
+
+.mountainMid {
+  top: 28%;
+  height: 33%;
+  background: #465960;
+  clip-path: polygon(0 76%, 10% 68%, 24% 48%, 38% 58%, 50% 39%, 67% 46%, 83% 32%, 100% 40%, 100% 100%, 0 100%);
+  opacity: 0.85;
+}
+
+.mountainNear {
+  top: 42%;
+  height: 35%;
+  background: #1a2a30;
+  clip-path: polygon(0 80%, 14% 52%, 27% 58%, 42% 29%, 55% 47%, 68% 23%, 82% 35%, 100% 18%, 100% 100%, 0 100%);
+}
+
+.river {
+  position: absolute;
+  top: 18%;
+  right: 12%;
+  width: 27%;
+  height: 62%;
+  background: linear-gradient(180deg, rgba(236, 242, 241, 0.75), rgba(168, 195, 200, 0.22));
+  clip-path: polygon(36% 0, 76% 0, 72% 22%, 100% 41%, 84% 60%, 92% 80%, 58% 100%, 18% 86%, 30% 55%, 4% 28%);
+  opacity: 0.75;
+  filter: blur(0.5px);
+}
+
+.riverShine {
+  position: absolute;
+  top: 24%;
+  right: 18%;
+  width: 11%;
+  height: 44%;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0));
+  clip-path: polygon(40% 0, 80% 0, 55% 100%, 18% 100%);
+  filter: blur(6px);
+  opacity: 0.6;
+}
+
+.forest {
+  position: absolute;
+  left: -4%;
+  right: -4%;
+  bottom: -2%;
+  background-repeat: repeat-x;
+}
+
+.forestBack {
+  height: 26%;
+  opacity: 0.45;
+  background-image:
+    radial-gradient(circle at 3% 100%, transparent 28px, #243941 29px),
+    radial-gradient(circle at 10% 100%, transparent 22px, #2c444d 23px),
+    radial-gradient(circle at 18% 100%, transparent 34px, #293e46 35px),
+    radial-gradient(circle at 27% 100%, transparent 24px, #243941 25px),
+    radial-gradient(circle at 36% 100%, transparent 32px, #2c444d 33px),
+    radial-gradient(circle at 48% 100%, transparent 23px, #263d45 24px),
+    radial-gradient(circle at 57% 100%, transparent 30px, #2c444d 31px),
+    radial-gradient(circle at 67% 100%, transparent 26px, #263d45 27px),
+    radial-gradient(circle at 79% 100%, transparent 36px, #283e46 37px),
+    radial-gradient(circle at 90% 100%, transparent 25px, #233840 26px);
+}
+
+.forestMid {
+  height: 31%;
+  opacity: 0.65;
+  background-image:
+    radial-gradient(circle at 8% 100%, transparent 38px, #18272d 39px),
+    radial-gradient(circle at 20% 100%, transparent 34px, #1c2c33 35px),
+    radial-gradient(circle at 31% 100%, transparent 46px, #17262c 47px),
+    radial-gradient(circle at 43% 100%, transparent 33px, #18272d 34px),
+    radial-gradient(circle at 56% 100%, transparent 42px, #16252a 43px),
+    radial-gradient(circle at 69% 100%, transparent 35px, #1a2a30 36px),
+    radial-gradient(circle at 82% 100%, transparent 44px, #152429 45px),
+    radial-gradient(circle at 95% 100%, transparent 36px, #18272d 37px);
+}
+
+.forestFront {
+  height: 39%;
+  background-image:
+    radial-gradient(circle at 6% 100%, transparent 48px, #0a1317 49px),
+    radial-gradient(circle at 16% 100%, transparent 42px, #0b1418 43px),
+    radial-gradient(circle at 28% 100%, transparent 56px, #091115 57px),
+    radial-gradient(circle at 43% 100%, transparent 40px, #0a1317 41px),
+    radial-gradient(circle at 55% 100%, transparent 58px, #091115 59px),
+    radial-gradient(circle at 69% 100%, transparent 43px, #0a1317 44px),
+    radial-gradient(circle at 82% 100%, transparent 61px, #0a1216 62px),
+    radial-gradient(circle at 95% 100%, transparent 44px, #070e12 45px);
+}
+
+/* Forest Dashboard Veil (Balances atmospheric scenery with card contrast) */
+.tripVeil {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 75% 10%, rgba(224, 168, 117, 0.25), transparent 48%),
+    radial-gradient(circle at 25% 65%, rgba(131, 151, 154, 0.18), transparent 52%),
+    linear-gradient(180deg, rgba(14, 23, 27, 0.35) 0%, rgba(12, 19, 22, 0.52) 45%, rgba(8, 13, 16, 0.78) 100%);
+  z-index: 2;
+  pointer-events: none;
+}
+
+
+/* ===================================================================
+   2. ROOM LEDGER BACKDROP (LOCAL)
+   =================================================================== */
+
+.roomBackdrop {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(155deg, #663d50 0%, #462838 40%, #1c1118 100%);
+}
+
+.roomSkyline {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, rgba(23, 18, 28, 0.28), transparent 16%),
+    linear-gradient(180deg, #87505e 0%, #d46e53 24%, #a06b75 52%, #5e6072 70%, #263433 100%);
+  opacity: 0.78;
+}
+
+.roomWall {
+  position: absolute;
+  inset: 12% 0 0;
+  background:
+    linear-gradient(180deg, rgba(255, 225, 193, 0.18), rgba(92, 66, 86, 0.28)),
+    radial-gradient(circle at 70% 12%, rgba(255, 183, 109, 0.18), transparent 26%);
+}
+
+.wallTexture {
+  position: absolute;
+  inset: 14% 0 0;
+  opacity: 0.18;
+  background:
+    radial-gradient(circle at 18% 24%, rgba(255, 230, 206, 0.4) 0 1px, transparent 2px),
+    radial-gradient(circle at 68% 36%, rgba(255, 230, 206, 0.35) 0 1px, transparent 2px),
+    radial-gradient(circle at 42% 58%, rgba(255, 230, 206, 0.28) 0 1px, transparent 2px);
+  background-size: 140px 140px;
+}
+
+.windowGlow {
+  position: absolute;
+  top: 10%;
+  left: 15%;
+  width: 38%;
+  height: 18%;
+  border-radius: 0.5rem;
+  background: linear-gradient(180deg, rgba(255, 203, 127, 0.85), rgba(216, 102, 69, 0.65));
+  box-shadow: 0 0 110px rgba(255, 156, 90, 0.45);
+}
+
+.sunBeam {
+  position: absolute;
+  top: 18%;
+  left: 5%;
+  width: 58%;
+  height: 50%;
+  background: linear-gradient(135deg, rgba(255, 168, 92, 0.5), rgba(255, 168, 92, 0));
+  clip-path: polygon(0 0, 74% 0, 32% 100%, 0 100%);
+  filter: blur(12px);
+}
+
+.windowFrame {
+  position: absolute;
+  top: 10%;
+  left: 15%;
+  width: 38%;
+  height: 18%;
+  border: 0.35rem solid rgba(76, 49, 58, 0.65);
+  border-radius: 0.55rem;
+  box-shadow: inset 0 0 0 1px rgba(255, 233, 194, 0.14);
+}
+
+.bed {
+  position: absolute;
+  right: 14%;
+  top: 28%;
+  width: 42%;
+  height: 31%;
+  border-radius: 1.5rem 1.5rem 0.8rem 0.8rem;
+  background: linear-gradient(180deg, #9da0b0 0%, #82869a 48%, #646a7f 100%);
+  box-shadow: -22px 18px 0 rgba(27, 38, 41, 0.18);
+  opacity: 0.8;
+}
+
+.pillowLeft,
+.pillowRight {
+  position: absolute;
+  top: 31%;
+  width: 10%;
+  height: 8%;
+  border-radius: 1rem;
+  background: linear-gradient(180deg, rgba(197, 202, 221, 0.9), rgba(158, 164, 188, 0.82));
+}
+
+.pillowLeft {
+  right: 36%;
+  transform: rotate(6deg);
+}
+
+.pillowRight {
+  right: 22%;
+  transform: rotate(-5deg);
+}
+
+.blanket {
+  position: absolute;
+  right: 12%;
+  top: 41%;
+  width: 44%;
+  height: 19%;
+  border-radius: 0.9rem 0.9rem 1.4rem 1.4rem;
+  background: linear-gradient(180deg, rgba(255, 194, 116, 0.88), rgba(238, 136, 79, 0.82));
+  transform: rotate(-4deg);
+  box-shadow: -24px 28px 40px rgba(15, 15, 18, 0.18);
+}
+
+.sideTable {
+  position: absolute;
+  left: 32%;
+  top: 36%;
+  width: 11%;
+  height: 14%;
+  background: linear-gradient(180deg, #4d3d4a, #382c37);
+  border-radius: 0.35rem;
+  box-shadow:
+    -8px 38px 0 -18px #382c37,
+    8px 38px 0 -18px #382c37;
+}
+
+.lampBase {
+  position: absolute;
+  left: 36%;
+  top: 29%;
+  width: 2px;
+  height: 12%;
+  background: rgba(57, 38, 42, 0.7);
+}
+
+.lampGlow {
+  position: absolute;
+  left: 33%;
+  top: 27%;
+  width: 6%;
+  height: 8%;
+  border-radius: 45% 45% 38% 38%;
+  background: linear-gradient(180deg, #ffbe70 0%, #db8750 100%);
+  box-shadow: 0 0 40px rgba(255, 187, 113, 0.38);
+}
+
+.rug {
+  position: absolute;
+  left: 18%;
+  bottom: 8%;
+  width: 24%;
+  height: 18%;
+  border-radius: 45% 40% 38% 44%;
+  background: linear-gradient(180deg, rgba(214, 111, 90, 0.75), rgba(118, 67, 75, 0.75));
+  transform: rotate(-14deg);
+}
+
+.desk {
+  position: absolute;
+  right: 10%;
+  bottom: 10%;
+  width: 25%;
+  height: 12%;
+  border-radius: 1rem;
+  background: linear-gradient(180deg, #b8b8c2 0%, #87899b 100%);
+  opacity: 0.75;
+}
+
+.laptop {
+  position: absolute;
+  right: 20%;
+  bottom: 16%;
+  width: 12%;
+  height: 9%;
+  border-radius: 0.5rem 0.5rem 0.2rem 0.2rem;
+  background:
+    linear-gradient(180deg, rgba(35, 41, 56, 0.92), rgba(13, 17, 26, 0.98)),
+    linear-gradient(180deg, transparent 45%, rgba(255, 255, 255, 0.2) 46%);
+  box-shadow: 0 12px 0 -8px rgba(22, 25, 31, 0.82);
+}
+
+.phone {
+  position: absolute;
+  right: 28%;
+  top: 46%;
+  width: 5%;
+  height: 8%;
+  border-radius: 0.6rem;
+  background: linear-gradient(180deg, #232734 0%, #0f1320 100%);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08);
+  transform: rotate(12deg);
+}
+
+.mug {
+  position: absolute;
+  right: 18%;
+  bottom: 13%;
+  width: 3.5%;
+  height: 5.8%;
+  border-radius: 0.4rem 0.4rem 0.7rem 0.7rem;
+  background: linear-gradient(180deg, #e4d5cf 0%, #b7a8a4 100%);
+  box-shadow: 0 0 0 1px rgba(50, 40, 42, 0.18);
+}
+
+.mug::after {
+  content: "";
+  position: absolute;
+  top: 22%;
+  right: -22%;
+  width: 34%;
+  height: 42%;
+  border: 2px solid rgba(220, 206, 201, 0.92);
+  border-left: 0;
+  border-radius: 0 50% 50% 0;
+}
+
+.plant {
+  position: absolute;
+  right: 33%;
+  bottom: 15%;
+  width: 6%;
+  height: 12%;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 20% 75%, #173628 0, #173628 18%, transparent 19%),
+    radial-gradient(circle at 45% 20%, #284d39 0, #284d39 26%, transparent 27%),
+    radial-gradient(circle at 78% 32%, #386646 0, #386646 24%, transparent 25%),
+    radial-gradient(circle at 62% 62%, #255237 0, #255237 21%, transparent 22%),
+    linear-gradient(180deg, transparent 58%, #65413f 59%, #65413f 72%, transparent 73%);
+  opacity: 0.85;
+}
+
+.floorBoards {
+  position: absolute;
+  inset: 64% 0 0;
+  opacity: 0.22;
+  background:
+    repeating-linear-gradient(
+      90deg,
+      rgba(39, 49, 46, 0.6) 0 2px,
+      transparent 2px 60px
+    ),
+    linear-gradient(180deg, rgba(25, 34, 32, 0.2), rgba(14, 21, 20, 0.45));
+}
+
+/* Room Dashboard Veil (Balances sunset room warmth with card readability) */
+.roomVeil {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 80% 10%, rgba(243, 152, 80, 0.30), transparent 48%),
+    radial-gradient(circle at 20% 70%, rgba(186, 92, 68, 0.20), transparent 52%),
+    linear-gradient(180deg, rgba(28, 16, 22, 0.35) 0%, rgba(24, 14, 20, 0.52) 45%, rgba(14, 8, 12, 0.78) 100%);
+  z-index: 2;
+  pointer-events: none;
+}

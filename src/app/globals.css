@@ -1,10 +1,10 @@
 @import "tailwindcss";
 
 :root {
-  --background: #eadcc6;
-  --foreground: #151311;
-  --muted: rgba(21, 19, 17, 0.68);
-  --line: rgba(255, 247, 235, 0.18);
+  --background: #111618;
+  --foreground: #fbf5eb;
+  --muted: rgba(251, 245, 235, 0.68);
+  --line: rgba(255, 247, 235, 0.14);
   --panel: rgba(255, 251, 244, 0.08);
   --font-sans-ui: "Aptos", "Segoe UI", "Trebuchet MS", sans-serif;
   --font-display: "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Georgia, serif;
@@ -43,4 +43,693 @@ button {
 :focus-visible {
   outline: 2px solid rgba(253, 236, 198, 0.9);
   outline-offset: 4px;
+}
+
+/* ========================================================================= */
+/* SCROLLBAR UTILITIES & DARK GLASSMORPHIC SCROLLBAR STYLING                */
+/* ========================================================================= */
+.no-scrollbar::-webkit-scrollbar,
+.scrollbar-none::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+}
+
+.no-scrollbar,
+.scrollbar-none {
+  -ms-overflow-style: none !important;
+  scrollbar-width: none !important;
+}
+
+/* Elegant dark-mode scrollbars across the application */
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 248, 235, 0.14);
+  border-radius: 9999px;
+  transition: background 0.2s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(224, 168, 117, 0.4);
+}
+
+::-webkit-scrollbar-button {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+}
+
+::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 248, 235, 0.14) transparent;
+}
+
+/* Fluid Dashboard Entrance Animations */
+@keyframes dashboardFadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes headerSlideDown {
+  0% {
+    opacity: 0;
+    transform: translateY(-16px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ========================================================================= */
+/* TYPEWRITER LOADER (From Uiverse.io by uxRakhal)                          */
+/* ========================================================================= */
+.typewriter {
+  --blue: #5cbbff;
+  --blue-dark: #162d72;
+  --key: #fff;
+  --paper: #eef0fd;
+  --text: #00000049;
+  --tool: #ffbb00;
+  --duration: 3s;
+  position: relative;
+  -webkit-animation: bounce05 var(--duration) linear infinite;
+  animation: bounce05 var(--duration) linear infinite;
+}
+
+/* Optional realm color harmonizations */
+.typewriter.typewriter-theme-forest {
+  --blue: #5fb899;
+  --blue-dark: #1b382d;
+  --tool: #e0a875;
+}
+
+.typewriter.typewriter-theme-room {
+  --blue: #f39850;
+  --blue-dark: #3a2027;
+  --tool: #fcd34d;
+}
+
+.typewriter .slide {
+  width: 92px;
+  height: 20px;
+  border-radius: 3px;
+  margin-left: 14px;
+  transform: translateX(14px);
+  background: linear-gradient(var(--blue), var(--blue-dark));
+  -webkit-animation: slide05 var(--duration) ease infinite;
+  animation: slide05 var(--duration) ease infinite;
+}
+
+.typewriter .slide:before,
+.typewriter .slide:after,
+.typewriter .slide i:before {
+  content: "";
+  position: absolute;
+  background: var(--tool);
+}
+
+.typewriter .slide:before {
+  width: 2px;
+  height: 8px;
+  top: 6px;
+  left: 100%;
+}
+
+.typewriter .slide:after {
+  left: 94px;
+  top: 3px;
+  height: 14px;
+  width: 6px;
+  border-radius: 3px;
+}
+
+.typewriter .slide i {
+  display: block;
+  position: absolute;
+  right: 100%;
+  width: 6px;
+  height: 4px;
+  top: 4px;
+  background: var(--tool);
+}
+
+.typewriter .slide i:before {
+  right: 100%;
+  top: -2px;
+  width: 4px;
+  border-radius: 2px;
+  height: 14px;
+}
+
+.typewriter .paper {
+  position: absolute;
+  left: 24px;
+  top: -26px;
+  width: 40px;
+  height: 46px;
+  border-radius: 5px;
+  background: var(--paper);
+  transform: translateY(46px);
+  -webkit-animation: paper05 var(--duration) linear infinite;
+  animation: paper05 var(--duration) linear infinite;
+}
+
+.typewriter .paper:before {
+  content: "";
+  position: absolute;
+  left: 6px;
+  right: 6px;
+  top: 7px;
+  border-radius: 2px;
+  height: 4px;
+  transform: scaleY(0.8);
+  background: var(--text);
+  box-shadow: 0 12px 0 var(--text), 0 24px 0 var(--text), 0 36px 0 var(--text);
+}
+
+.typewriter .keyboard {
+  width: 120px;
+  height: 56px;
+  margin-top: -10px;
+  z-index: 1;
+  position: relative;
+}
+
+.typewriter .keyboard:before,
+.typewriter .keyboard:after {
+  content: "";
+  position: absolute;
+}
+
+.typewriter .keyboard:before {
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 7px;
+  background: linear-gradient(135deg, var(--blue), var(--blue-dark));
+  transform: perspective(10px) rotateX(2deg);
+  transform-origin: 50% 100%;
+}
+
+.typewriter .keyboard:after {
+  left: 2px;
+  top: 25px;
+  width: 11px;
+  height: 4px;
+  border-radius: 2px;
+  box-shadow: 15px 0 0 var(--key), 30px 0 0 var(--key), 45px 0 0 var(--key),
+    60px 0 0 var(--key), 75px 0 0 var(--key), 90px 0 0 var(--key),
+    22px 10px 0 var(--key), 37px 10px 0 var(--key), 52px 10px 0 var(--key),
+    60px 10px 0 var(--key), 68px 10px 0 var(--key), 83px 10px 0 var(--key);
+  -webkit-animation: keyboard05 var(--duration) linear infinite;
+  animation: keyboard05 var(--duration) linear infinite;
+}
+
+@keyframes bounce05 {
+  85%,
+  92%,
+  100% {
+    transform: translateY(0);
+  }
+
+  89% {
+    transform: translateY(-4px);
+  }
+
+  95% {
+    transform: translateY(2px);
+  }
+}
+
+@keyframes slide05 {
+  5% {
+    transform: translateX(14px);
+  }
+
+  15%,
+  30% {
+    transform: translateX(6px);
+  }
+
+  40%,
+  55% {
+    transform: translateX(0);
+  }
+
+  65%,
+  70% {
+    transform: translateX(-4px);
+  }
+
+  80%,
+  89% {
+    transform: translateX(-12px);
+  }
+
+  100% {
+    transform: translateX(14px);
+  }
+}
+
+@keyframes paper05 {
+  5% {
+    transform: translateY(46px);
+  }
+
+  20%,
+  30% {
+    transform: translateY(34px);
+  }
+
+  40%,
+  55% {
+    transform: translateY(22px);
+  }
+
+  65%,
+  70% {
+    transform: translateY(10px);
+  }
+
+  80%,
+  85% {
+    transform: translateY(0);
+  }
+
+  92%,
+  100% {
+    transform: translateY(46px);
+  }
+}
+
+@keyframes keyboard05 {
+  5%,
+  12%,
+  21%,
+  30%,
+  39%,
+  48%,
+  57%,
+  66%,
+  75%,
+  84% {
+    box-shadow: 15px 0 0 var(--key), 30px 0 0 var(--key), 45px 0 0 var(--key),
+      60px 0 0 var(--key), 75px 0 0 var(--key), 90px 0 0 var(--key),
+      22px 10px 0 var(--key), 37px 10px 0 var(--key), 52px 10px 0 var(--key),
+      60px 10px 0 var(--key), 68px 10px 0 var(--key), 83px 10px 0 var(--key);
+  }
+
+  9% {
+    box-shadow: 15px 2px 0 var(--key), 30px 0 0 var(--key), 45px 0 0 var(--key),
+      60px 0 0 var(--key), 75px 0 0 var(--key), 90px 0 0 var(--key),
+      22px 10px 0 var(--key), 37px 10px 0 var(--key), 52px 10px 0 var(--key),
+      60px 10px 0 var(--key), 68px 10px 0 var(--key), 83px 10px 0 var(--key);
+  }
+
+  18% {
+    box-shadow: 15px 0 0 var(--key), 30px 0 0 var(--key), 45px 0 0 var(--key),
+      60px 2px 0 var(--key), 75px 0 0 var(--key), 90px 0 0 var(--key),
+      22px 10px 0 var(--key), 37px 10px 0 var(--key), 52px 10px 0 var(--key),
+      60px 10px 0 var(--key), 68px 10px 0 var(--key), 83px 10px 0 var(--key);
+  }
+
+  27% {
+    box-shadow: 15px 0 0 var(--key), 30px 0 0 var(--key), 45px 0 0 var(--key),
+      60px 0 0 var(--key), 75px 0 0 var(--key), 90px 0 0 var(--key),
+      22px 12px 0 var(--key), 37px 10px 0 var(--key), 52px 10px 0 var(--key),
+      60px 10px 0 var(--key), 68px 10px 0 var(--key), 83px 10px 0 var(--key);
+  }
+
+  36% {
+    box-shadow: 15px 0 0 var(--key), 30px 0 0 var(--key), 45px 0 0 var(--key),
+      60px 0 0 var(--key), 75px 0 0 var(--key), 90px 0 0 var(--key),
+      22px 10px 0 var(--key), 37px 10px 0 var(--key), 52px 12px 0 var(--key),
+      60px 12px 0 var(--key), 68px 12px 0 var(--key), 83px 10px 0 var(--key);
+  }
+
+  45% {
+    box-shadow: 15px 0 0 var(--key), 30px 0 0 var(--key), 45px 0 0 var(--key),
+      60px 0 0 var(--key), 75px 0 0 var(--key), 90px 2px 0 var(--key),
+      22px 10px 0 var(--key), 37px 10px 0 var(--key), 52px 10px 0 var(--key),
+      60px 10px 0 var(--key), 68px 10px 0 var(--key), 83px 10px 0 var(--key);
+  }
+
+  54% {
+    box-shadow: 15px 0 0 var(--key), 30px 2px 0 var(--key), 45px 0 0 var(--key),
+      60px 0 0 var(--key), 75px 0 0 var(--key), 90px 0 0 var(--key),
+      22px 10px 0 var(--key), 37px 10px 0 var(--key), 52px 10px 0 var(--key),
+      60px 10px 0 var(--key), 68px 10px 0 var(--key), 83px 10px 0 var(--key);
+  }
+
+  63% {
+    box-shadow: 15px 0 0 var(--key), 30px 0 0 var(--key), 45px 0 0 var(--key),
+      60px 0 0 var(--key), 75px 0 0 var(--key), 90px 0 0 var(--key),
+      22px 10px 0 var(--key), 37px 10px 0 var(--key), 52px 10px 0 var(--key),
+      60px 10px 0 var(--key), 68px 10px 0 var(--key), 83px 12px 0 var(--key);
+  }
+
+  72% {
+    box-shadow: 15px 0 0 var(--key), 30px 0 0 var(--key), 45px 2px 0 var(--key),
+      60px 0 0 var(--key), 75px 0 0 var(--key), 90px 0 0 var(--key),
+      22px 10px 0 var(--key), 37px 10px 0 var(--key), 52px 10px 0 var(--key),
+      60px 10px 0 var(--key), 68px 10px 0 var(--key), 83px 10px 0 var(--key);
+  }
+
+  81% {
+    box-shadow: 15px 0 0 var(--key), 30px 0 0 var(--key), 45px 0 0 var(--key),
+      60px 0 0 var(--key), 75px 0 0 var(--key), 90px 0 0 var(--key),
+      22px 10px 0 var(--key), 37px 12px 0 var(--key), 52px 10px 0 var(--key),
+      60px 10px 0 var(--key), 68px 10px 0 var(--key), 83px 10px 0 var(--key);
+  }
+}
+
+/* ========================================================================= */
+/* REVAMPED SLOW, SMOOTH, CINEMATIC PAGE & CARD ENTRANCE SYSTEM             */
+/* Slower, floatier, eye-pleasing keyframes & softer physical curves         */
+/* ========================================================================= */
+
+/* 3D Perspective Card Flip-In Animation (Slow, smooth, physical elegance) */
+@keyframes cardFlipIn {
+  0% {
+    opacity: 0;
+    transform: perspective(1400px) rotateX(-12deg) translateY(32px) scale(0.975);
+    filter: blur(4px);
+    transform-origin: 50% 0%;
+  }
+  50% {
+    opacity: 0.92;
+    filter: blur(0px);
+  }
+  75% {
+    transform: perspective(1400px) rotateX(1.4deg) translateY(-1.5px) scale(1.002);
+  }
+  90% {
+    transform: perspective(1400px) rotateX(-0.4deg) translateY(0) scale(1);
+  }
+  100% {
+    opacity: 1;
+    transform: perspective(1400px) rotateX(0deg) translateY(0) scale(1);
+    filter: blur(0px);
+  }
+}
+
+/* Page View entrance animation (when switching pages/tabs) */
+@keyframes pageViewIn {
+  0% {
+    opacity: 0;
+    transform: perspective(1400px) rotateX(-8deg) translateY(26px) scale(0.985);
+    filter: blur(5px);
+    transform-origin: 50% 0%;
+  }
+  45% {
+    opacity: 0.88;
+    filter: blur(0.5px);
+  }
+  75% {
+    opacity: 0.98;
+    filter: blur(0px);
+    transform: perspective(1400px) rotateX(1deg) translateY(-1px) scale(1.001);
+  }
+  100% {
+    opacity: 1;
+    transform: perspective(1400px) rotateX(0deg) translateY(0) scale(1);
+    filter: blur(0px);
+  }
+}
+
+/* Grand Cinematic Space Switch Animation (Forest <-> Room transition) */
+@keyframes spaceSwitchIn {
+  0% {
+    opacity: 0;
+    transform: perspective(1500px) rotateX(-9deg) translateY(36px) scale(0.97);
+    filter: blur(6px);
+    transform-origin: 50% 5%;
+  }
+  55% {
+    opacity: 0.94;
+    filter: blur(0px);
+    transform: perspective(1500px) rotateX(1.6deg) translateY(-2px) scale(1.002);
+  }
+  85% {
+    transform: perspective(1500px) rotateX(-0.5deg) translateY(0) scale(1);
+  }
+  100% {
+    opacity: 1;
+    transform: perspective(1500px) rotateX(0deg) translateY(0) scale(1);
+    filter: blur(0px);
+  }
+}
+
+/* Forest Entrance Atmosphere Sweep */
+@keyframes forestMistSweep {
+  0% {
+    opacity: 0;
+    transform: translateY(-24px) scale(0.98);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Bottom Nav Dock Entrance & Icon Stagger */
+@keyframes bottomNavPopUp {
+  0% {
+    opacity: 0;
+    transform: translateY(32px) scale(0.92);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes bottomTabIn {
+  0% {
+    opacity: 0;
+    transform: translateY(8px) scale(0.9);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.animate-pop-in {
+  animation: cardFlipIn 1100ms cubic-bezier(0.19, 1, 0.22, 1) both;
+  backface-visibility: hidden;
+  transform-style: preserve-3d;
+  will-change: transform, opacity, filter;
+}
+
+.animate-page-view {
+  animation: pageViewIn 1150ms cubic-bezier(0.19, 1, 0.22, 1) both;
+  backface-visibility: hidden;
+  will-change: transform, opacity, filter;
+}
+
+.animate-space-switch {
+  animation: spaceSwitchIn 1350ms cubic-bezier(0.19, 1, 0.22, 1) both;
+  backface-visibility: hidden;
+  will-change: transform, opacity, filter;
+}
+
+.animate-forest-sweep {
+  animation: forestMistSweep 1400ms cubic-bezier(0.19, 1, 0.22, 1) both;
+}
+
+.animate-bottom-nav-pop {
+  animation: bottomNavPopUp 950ms 350ms cubic-bezier(0.19, 1, 0.22, 1) both;
+}
+
+/* Visible, eye-pleasing slow cascade stagger delay classes */
+.pop-delay-1 { animation-delay: 120ms; }
+.pop-delay-2 { animation-delay: 240ms; }
+.pop-delay-3 { animation-delay: 360ms; }
+.pop-delay-4 { animation-delay: 480ms; }
+.pop-delay-5 { animation-delay: 600ms; }
+.pop-delay-6 { animation-delay: 720ms; }
+.pop-delay-7 { animation-delay: 840ms; }
+.pop-delay-8 { animation-delay: 960ms; }
+
+/* ========================================================================= */
+/* 3D SCROLL REVEAL FLIP SYSTEM (Matching Tab Switching Animation)           */
+/* ========================================================================= */
+@keyframes tabFlipScrollIn {
+  0% {
+    opacity: 0;
+    transform: perspective(1400px) rotateX(-14deg) translateY(38px) scale(0.97);
+    filter: blur(4px);
+    transform-origin: 50% 0%;
+  }
+  60% {
+    opacity: 0.98;
+    filter: blur(0px);
+    transform: perspective(1400px) rotateX(2deg) translateY(-1.5px) scale(1.002);
+  }
+  85% {
+    transform: perspective(1400px) rotateX(-0.5deg) translateY(0.5px) scale(1);
+  }
+  100% {
+    opacity: 1;
+    transform: perspective(1400px) rotateX(0deg) translateY(0) scale(1);
+    filter: blur(0px);
+  }
+}
+
+@keyframes tabFlipScrollDownIn {
+  0% {
+    opacity: 0;
+    transform: perspective(1400px) rotateX(14deg) translateY(-38px) scale(0.97);
+    filter: blur(4px);
+    transform-origin: 50% 100%;
+  }
+  60% {
+    opacity: 0.98;
+    filter: blur(0px);
+    transform: perspective(1400px) rotateX(-2deg) translateY(1.5px) scale(1.002);
+  }
+  85% {
+    transform: perspective(1400px) rotateX(0.5deg) translateY(-0.5px) scale(1);
+  }
+  100% {
+    opacity: 1;
+    transform: perspective(1400px) rotateX(0deg) translateY(0) scale(1);
+    filter: blur(0px);
+  }
+}
+
+.scroll-reveal-item {
+  will-change: transform, opacity;
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+}
+
+.scroll-reveal-item.scroll-flip-up.scroll-reveal-hidden {
+  opacity: 0;
+  transform: perspective(1400px) rotateX(-14deg) translateY(38px) scale(0.97);
+  transform-origin: 50% 0%;
+  pointer-events: none;
+}
+
+.scroll-reveal-item.scroll-flip-down.scroll-reveal-hidden {
+  opacity: 0;
+  transform: perspective(1400px) rotateX(14deg) translateY(-38px) scale(0.97);
+  transform-origin: 50% 100%;
+  pointer-events: none;
+}
+
+.scroll-reveal-item.scroll-fade-up.scroll-reveal-hidden {
+  opacity: 0;
+  transform: translateY(32px) scale(0.98);
+  pointer-events: none;
+}
+
+.scroll-reveal-item.scroll-flip-up.scroll-reveal-visible {
+  animation: tabFlipScrollIn 1250ms cubic-bezier(0.19, 1, 0.22, 1) both;
+  pointer-events: auto;
+}
+
+.scroll-reveal-item.scroll-flip-down.scroll-reveal-visible {
+  animation: tabFlipScrollDownIn 1250ms cubic-bezier(0.19, 1, 0.22, 1) both;
+  pointer-events: auto;
+}
+
+.scroll-reveal-item.scroll-fade-up.scroll-reveal-visible {
+  animation: pageViewIn 1250ms cubic-bezier(0.19, 1, 0.22, 1) both;
+  pointer-events: auto;
+}
+
+/* Zero-lag hardware-accelerated interactive card hover */
+.smooth-hover-card {
+  will-change: transform, box-shadow;
+  transition:
+    transform 220ms cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 180ms ease,
+    box-shadow 240ms ease !important;
+}
+
+.smooth-hover-card:hover {
+  transform: translateY(-4px) scale(1.012);
+}
+
+/* Smart Receipt Scanner Laser Sweep Animation */
+@keyframes receiptLaserSweep {
+  0% {
+    top: 0%;
+    opacity: 0.8;
+  }
+  50% {
+    top: 96%;
+    opacity: 1;
+  }
+  100% {
+    top: 0%;
+    opacity: 0.8;
+  }
+}
+
+.animate-scanner-laser {
+  animation: receiptLaserSweep 2.2s ease-in-out infinite;
+}
+
+/* ========================================================================= */
+/* PRINTABLE RECEIPT STYLES                                                  */
+/* ========================================================================= */
+@media print {
+  body {
+    background: #ffffff !important;
+    color: #000000 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  /* Hide everything except the receipt during print */
+  body * {
+    visibility: hidden;
+  }
+
+  .receipt-modal-overlay,
+  .receipt-modal-overlay * {
+    visibility: visible;
+  }
+
+  .receipt-modal-controls,
+  .receipt-modal-backdrop {
+    display: none !important;
+  }
+
+  #split-printable-receipt {
+    position: fixed !important;
+    left: 50% !important;
+    top: 10px !important;
+    transform: translateX(-50%) !important;
+    width: 100% !important;
+    max-width: 440px !important;
+    box-shadow: none !important;
+    margin: 0 auto !important;
+    border: 1px dashed #666 !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    background-color: #faf7f0 !important;
+    color: #1c1917 !important;
+  }
 }
